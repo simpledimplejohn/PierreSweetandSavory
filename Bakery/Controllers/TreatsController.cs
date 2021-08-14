@@ -12,9 +12,8 @@ using System.Security.Claims;
 namespace Bakery.Controllers
 {
 
-  [Authorize] // added for Identity
-  //AllowAnonymous allows read but not write by non users
-  //Authorize forbids read or write to non users
+  [Authorize] 
+
   public class TreatsController : Controller
   {
     private readonly BakeryContext _db;
@@ -26,12 +25,10 @@ namespace Bakery.Controllers
       _db = db;
     }
 // update this for Identity by using the userId to get a specific part of the database
-    public async Task<ActionResult> Index()
+    [AllowAnonymous]
+    public ActionResult Index()
     {
-      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value; //? checks for a null value and wont pass if its not there
-      var currentUser = await _userManager.FindByIdAsync(userId);
-      var userTreats = _db.Treats.Where(entry => entry.User.Id == currentUser.Id).ToList();
-      return View(userTreats);
+      return View(_db.Treats.ToList());
     }
 // all of this code must be updated
 
@@ -45,9 +42,7 @@ namespace Bakery.Controllers
     [HttpPost] 
     public async Task<ActionResult> Create(Treat Treat, int FlavorId)
     {
-      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-      var currentUser = await _userManager.FindByIdAsync(userId);
-      Treat.User = currentUser;
+
       _db.Treats.Add(Treat);
       _db.SaveChanges();
       if (FlavorId != 0)
@@ -57,7 +52,7 @@ namespace Bakery.Controllers
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
-
+    [AllowAnonymous]
     public ActionResult Details(int id)
     {
       var thisTreat = _db.Treats
