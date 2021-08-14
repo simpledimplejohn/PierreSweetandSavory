@@ -5,7 +5,7 @@
 ### by [John Blalock](https://github.com/simpledimplejohn) 
 
 ### __Description__
-A webapp with a database that is designed to show my ability to use ASP.Net Core and MYSQL using the Many To Many relationships.  This app can take an input of both a Machine and an Engineer and push that information to a database using a many to many relationship and a join table.
+A webapp with a database that is designed to show my ability to use ASP.Net Core and MYSQL using the Many To Many relationships as well as the use of Identity for user authentication.
 
 
 ### __Technologies Used__
