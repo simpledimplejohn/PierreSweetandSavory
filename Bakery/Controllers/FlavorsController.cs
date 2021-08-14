@@ -1,11 +1,17 @@
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Bakery.Models;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace Bakery.Controllers
 {
+  [Authorize]
   public class FlavorsController : Controller
   {
     private readonly BakeryContext _db;
@@ -14,7 +20,7 @@ namespace Bakery.Controllers
     {
       _db = db;
     }
-
+    [AllowAnonymous]
     public ActionResult Index()
     {
       List<Flavor> model = _db.Flavors.ToList();
@@ -33,7 +39,7 @@ namespace Bakery.Controllers
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
-
+    [AllowAnonymous]
     public ActionResult Details(int id)
     {
       var thisFlavor = _db.Flavors

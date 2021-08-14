@@ -12,7 +12,7 @@ using System.Security.Claims;
 namespace Bakery.Controllers
 {
 
-  [AllowAnonymous] // added for Identity
+  [Authorize] // added for Identity
   //AllowAnonymous allows read but not write by non users
   //Authorize forbids read or write to non users
   public class TreatsController : Controller
